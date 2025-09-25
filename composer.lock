@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec3ab6350a563c529524e20d002fc213",
+    "content-hash": "bdf3184f94b92407deb35d1c432f4d26",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5736,9 +5736,6 @@
             },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-master": "10.0-dev"
-                },
                 "laravel": {
                     "aliases": {
                         "Hashids": "Vinkla\\Hashids\\Facades\\Hashids"
@@ -5746,6 +5743,9 @@
                     "providers": [
                         "Vinkla\\Hashids\\HashidsServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-master": "10.0-dev"
                 }
             },
             "autoload": {
@@ -8468,12 +8468,12 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.1"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }
