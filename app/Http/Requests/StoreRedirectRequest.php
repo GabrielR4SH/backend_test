@@ -28,7 +28,8 @@ class StoreRedirectRequest extends FormRequest
         return [
             'destination_url' => [  // Validações compostas
                 'required', 'url',  // URL válida
-                Rule::startsWith('https://'),  // Deve ser HTTPS
+
+                'starts_with' => 'https://',  // Deve ser HTTPS
                 function ($attribute, $value, $fail) {  // Não aponta para app
                     if (str_contains($value, request()->getHost())) {
                         $fail('URL cannot point to the application itself.');
