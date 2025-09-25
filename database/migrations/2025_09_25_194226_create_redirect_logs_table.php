@@ -15,7 +15,17 @@ return new class extends Migration
     {
         Schema::create('redirect_logs', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('redirect_id')->constrained()->onDelete('cascade');  // FK para Redirect, cascade delete
+            $table->string('ip_address');  // IP da request
+            $table->string('user_agent')->nullable();  // User-Agent
+            $table->string('referer')->nullable();  // Header Referer
+            $table->json('query_params')->nullable();  // Query params como JSON
+            $table->timestamp('accessed_at')->useCurrent();  // Data/hora do acesso
+
+            $table->index('redirect_id');  // Index para joins
+            $table->index('accessed_at');  // Index para queries por data (stats últimos 10 dias)
+            $table->index('ip_address');  // Index para contagem de uniques
+            $table->index('referer');  // Index para top referers
         });
     }
 

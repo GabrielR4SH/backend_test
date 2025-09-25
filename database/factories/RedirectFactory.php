@@ -17,7 +17,9 @@ class RedirectFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'destination_url' => 'https://' . $this->faker->domainName,  // URL HTTPS fake
+            'is_active' => true,
+            'last_accessed_at' => $this->faker->dateTimeThisYear,
         ];
     }
 }

@@ -17,7 +17,12 @@ class RedirectLogFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'redirect_id' => Redirect::factory(),
+            'ip_address' => $this->faker->ipv4,
+            'user_agent' => $this->faker->userAgent,
+            'referer' => $this->faker->url,
+            'query_params' => json_encode(['utm_source' => 'facebook']),  // JSON fake
+            'accessed_at' => $this->faker->dateTimeThisMonth,
         ];
     }
 }
