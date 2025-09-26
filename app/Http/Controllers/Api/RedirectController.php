@@ -12,7 +12,7 @@ class RedirectController extends Controller
 {
     public function index()
     {
-        Log::info("RedirectController: index method called");
+        //Log::info("RedirectController: index method called");
         return Redirect::all()->map(function ($redirect) {
             return [
                 'code' => $redirect->code,
@@ -26,15 +26,15 @@ class RedirectController extends Controller
 
     public function store(Request $request)
     {
-        Log::info("RedirectController: store method called with data: " . json_encode($request->all()));
+        //Log::info("RedirectController: store method called with data: " . json_encode($request->all()));
         $redirect = Redirect::create($request->only('destination_url', 'is_active'));
-        Log::info("Created redirect with code: {$redirect->code}");
+        //Log::info("Created redirect with code: {$redirect->code}");
         return response()->json($redirect, 201);
     }
 
     public function show($code)
     {
-        Log::info("RedirectController: show method called for code: {$code}");
+        //Log::info("RedirectController: show method called for code: {$code}");
         $redirect = Redirect::findByCode($code);
         if (!$redirect) {
             return response()->json(['error' => 'Not found'], 404);
@@ -44,7 +44,7 @@ class RedirectController extends Controller
 
     public function update(Request $request, $code)
     {
-        Log::info("RedirectController: update method called for code: {$code}");
+        //Log::info("RedirectController: update method called for code: {$code}");
         $redirect = Redirect::findByCode($code);
         if (!$redirect) {
             return response()->json(['error' => 'Not found'], 404);
@@ -55,24 +55,24 @@ class RedirectController extends Controller
 
     public function destroy($code)
     {
-        Log::info("RedirectController: destroy method called for code: {$code}");
+        //Log::info("RedirectController: destroy method called for code: {$code}");
         $redirect = Redirect::findByCode($code);
         if (!$redirect) {
             return response()->json(['error' => 'Not found'], 404);
         }
         $redirect->delete();
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Deletado com sucesso'], 204);
     }
 
     public function stats($code)
     {
-        Log::info("RedirectController: stats method called for code: {$code}");
+        //Log::info("RedirectController: stats method called for code: {$code}");
         $redirect = Redirect::findByCode($code);
         if (!$redirect) {
             Log::warning("Stats: Redirect not found for code: {$code}");
             return response()->json(['error' => 'Not found'], 404);
         }
-        Log::info("Stats: Found redirect with id: {$redirect->id}, code: {$redirect->code}");
+        //Log::info("Stats: Found redirect with id: {$redirect->id}, code: {$redirect->code}");
         $logs = $redirect->logs();
         $totalAccesses = $logs->count();
         $lastAccess = $logs->max('accessed_at');

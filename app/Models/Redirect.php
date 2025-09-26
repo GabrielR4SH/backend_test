@@ -20,28 +20,24 @@ class Redirect extends Model
     {
         parent::boot();
 
-        static::$hashids = new Hashids(
-            config('hashids.connections.main.salt'),
-            config('hashids.connections.main.length'),
-            config('hashids.connections.main.alphabet')
-        );
+        static::initializeHashids();
 
         static::creating(function ($model) {
-            // Não gerar code aqui
+
         });
 
         static::created(function ($model) {
             DB::transaction(function () use ($model) {
                 if (!$model->code) {
-                    $code = static::$hashids->encode($model->id);
-                    \Log::info("Generated code {$code} for redirect ID {$model->id}");
+                    $code = static::getHashids()->encode($model->id);
+                    //\Log::info("Generated code {$code} for redirect ID {$model->id}");
                     $model->code = $code;
                     $model->save();
-                    \Log::info("Saved code {$code} for redirect ID {$model->id}");
-                    $decoded = static::$hashids->decode($code);
-                    \Log::info("Decoded code {$code} to ID: " . (empty($decoded) ? 'empty' : $decoded[0]));
+                    //\Log::info("Saved code {$code} for redirect ID {$model->id}");
+                    $decoded = static::getHashids()->decode($code);
+                    //\Log::info("Decoded code {$code} to ID: " . (empty($decoded) ? 'empty' : $decoded[0]));
                     if (empty($decoded) || $decoded[0] !== $model->id) {
-                        \Log::error("Hashids encoding/decoding mismatch for ID: {$model->id}, code: {$code}");
+                        //\Log::error("Hashids encoding/decoding mismatch for ID: {$model->id}, code: {$code}");
                         throw new \Exception("Hashids encoding/decoding mismatch for ID: {$model->id}, code: {$code}");
                     }
                 }
@@ -49,22 +45,39 @@ class Redirect extends Model
         });
     }
 
+    private static function initializeHashids()
+    {
+        if (!self::$hashids) {
+            self::$hashids = new Hashids(
+                config('hashids.connections.main.salt', 'your-default-salt'),
+                config('hashids.connections.main.length', 6),
+                config('hashids.connections.main.alphabet', 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
+            );
+        }
+    }
+
+    private static function getHashids()
+    {
+        self::initializeHashids();
+        return self::$hashids;
+    }
+
     public static function findByCode($code)
     {
-        \Log::info("findByCode: Attempting to decode code {$code}");
+        //\Log::info("findByCode: Attempting to decode code {$code}");
         try {
-            $decoded = static::$hashids->decode($code);
+            $decoded = static::getHashids()->decode($code);
             $id = $decoded[0] ?? null;
-            \Log::info("findByCode: Code {$code} decoded to ID: " . ($id ?? 'null'));
+            //\Log::info("findByCode: Code {$code} decoded to ID: " . ($id ?? 'null'));
             if ($id) {
                 $redirect = static::withTrashed()->find($id);
-                \Log::info("findByCode: Found redirect for ID {$id}: " . ($redirect ? 'Found' : 'Not found'));
+               // \Log::info("findByCode: Found redirect for ID {$id}: " . ($redirect ? 'Found' : 'Not found'));
                 return $redirect;
             }
-            \Log::info("findByCode: No ID decoded for code {$code}");
+            //\Log::info("findByCode: No ID decoded for code {$code}");
             return null;
         } catch (\Exception $e) {
-            \Log::error("findByCode error for code {$code}: " . $e->getMessage());
+            //\Log::error("findByCode error for code {$code}: " . $e->getMessage());
             return null;
         }
     }
