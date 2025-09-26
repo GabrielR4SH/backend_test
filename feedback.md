@@ -22,16 +22,17 @@ Esse documento visa coletar feedbacks sobre o teste de desenvolvimento. Desde o 
 ## Após o Teste
 
 1 - O que você achou do teste?
-> Resposta
+> É um projeto que requer conhecimento do framework, não foi tão dificil pra mim por conta da minha familiaridade com a tecnlogia. Demonstra bem as habilidades que um desenvolvedor Laravel pleno precisa dominar.
 
 2 - Levou mais ou menos tempo do que você esperava?
-> Resposta
+> Sim, esperava terminar esse projeto em no máximo 4 horas e acabei levando 9 horas por conta dos imprevistos
 
 3 - Teve imprevistos? Quais?
-> Resposta
+> Falta da extensão GMP habilitada (necessária para o Hashids), Configuração do php.ini para ativar extensões necessárias e conflitos de versão do PHP entre o sistema e requisitos do Laravel
 
 4 - Existem pontos que você gostaria de ter melhorado?
-> Resposta
+> Eu gostaria de ter criado esse projeto com Docker porque seria muito mais facil de lidar com problemas de versão do framework e com as extensões do PHP.. Porém como o teste não solicitou Docker e nem a descrição da vaga citava o uso do Docker eu resolvi fazer o mais proximo possivel do que foi proposto no teste
 
 5 - Quais falhas você encontrou na estrutura do projeto?
-> Resposta
+> Falta de configuração no AppServiceProvider - Bindings e registros necessários para o funcionamento do Hashids
+> RouteServiceProvider com prefixo duplicado - Rotas estavam sendo registradas como /api/api/redirects devido a dupla prefixação
