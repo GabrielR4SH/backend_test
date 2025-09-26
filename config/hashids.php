@@ -1,64 +1,35 @@
 <?php
 
-/**
- * Copyright (c) Vincent Klaiber.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * @see https://github.com/vinkla/laravel-hashids
- */
-
 return [
+    'salt' => env('HASHIDS_SALT', 'payt-backend-test-salt-2025'), // Salt único
+    'min_length' => 7, // Garante comprimento mínimo de 7
+    'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
 
     /*
-    |--------------------------------------------------------------------------
-    | Hashids Config
-    */
-
-    'salt' => env('HASHIDS_SALT', 'payt-backend-test-salt'),  // Salt secreta (use .env )
-    'min_length' => 7,  // Min 7 chars para codes (ex: ABCD123)
-    'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',  // Alfabeto padrão
-
-
-    /*
-    |--------------------------------------------------------------------------
+    |-------------------------------------------------------------------------
     | Default Connection Name
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify which of the connections below you wish to use as
-    | your default connection for all work. Of course, you may use many
-    | connections at once using the manager class.
+    |-------------------------------------------------------------------------
     |
     */
-
     'default' => 'main',
 
     /*
-    |--------------------------------------------------------------------------
+    |-------------------------------------------------------------------------
     | Hashids Connections
-    |--------------------------------------------------------------------------
-    |
-    | Here are each of the connections setup for your application. Example
-    | configuration has been included, but you may add as many connections as
-    | you would like.
+    |-------------------------------------------------------------------------
     |
     */
-
     'connections' => [
-
         'main' => [
-            'salt' => '',
-            'length' => 0,
-            // 'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+            'salt' => env('HASHIDS_SALT', 'payt-backend-test-salt-2025'), // Usa o mesmo salt
+            'length' => 7, // Define o comprimento mínimo aqui
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
         ],
 
         'alternative' => [
             'salt' => 'your-salt-string',
-            'length' => 'your-length-integer',
-            // 'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+            'length' => 7,
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
         ],
-
     ],
-
 ];

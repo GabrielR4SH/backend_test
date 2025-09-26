@@ -6,28 +6,29 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateRedirectRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
-        return true;
+        return true; // Autorização pode ser ajustada conforme necessário
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
-    public function rules(): array
+    public function rules()
     {
-        $rules = [];
-        if ($this->has('destination_url')) {
-            $rules['destination_url'] = (new StoreRedirectRequest())->rules()['destination_url'];  // mesmas validações de store
+        return [
+            'destination_url' => 'nullable|url|https',
+            'is_active' => 'nullable|boolean',
+        ];
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        $data = parent::validated($key, $default);
+        // Se $key for nulo, processa todo o array; caso contrário, retorna o valor específico
+        if ($key === null) {
+            if (array_key_exists('is_active', $data)) {
+                $data['is_active'] = (bool)$data['is_active'];
+            }
+            return $data;
         }
-        $rules['is_active'] = 'boolean';
-        return $rules;
+        return $data[$key] ?? $default;
     }
 }
